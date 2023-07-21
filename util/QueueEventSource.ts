@@ -1,29 +1,23 @@
-const QueueJob = require('./QueueJob');
+import { QueueEventLedger } from './QueueEventLedger';
 
-interface QueueEvent {
-  eventType: 'arrive' | 'finish';
-  job: QueueJob;
-}
-
-class QueueEventSource {
-  eventLedger: QueueEvent[];
+export class QueueEventSource {
+  ledger: QueueEventLedger;
 
   constructor() {
-    this.eventLedger = [];
+    this.ledger = new QueueEventLedger();
   }
 
   addArrival(job: QueueJob) {
-    eventLedger.add({
+    this.ledger.add({
       eventType: 'arrive',
-      job: new QueueJob(4, 128),
+      job: job,
     });
   }
 
   next() {
-    return {value: {eventType: 'arrival', time: 12345}, done: false};
+    return {
+      value: this.ledger.shift(),
+      done: false,
+    };
   }
 }
-
-module.exports = [
-  QueueEventSource,
-];
