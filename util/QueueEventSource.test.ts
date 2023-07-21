@@ -1,7 +1,7 @@
 import { QueueEventSource } from './QueueEventSource';
 
 describe('QueueEventSource', () => {
-  describe('addArival()', () => {
+  describe('addArrival()', () => {
 
     test('adds an arrival event', () => {
       const source = new QueueEventSource();
