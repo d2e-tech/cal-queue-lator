@@ -1,3 +1,4 @@
+import { QueueEvent } from './QueueEvent';
 import { QueueEventLedger } from './QueueEventLedger';
 
 export class QueueEventSource {
@@ -8,10 +9,10 @@ export class QueueEventSource {
   }
 
   addArrival(job: QueueJob) {
-    this.ledger.add({
-      eventType: 'arrive',
-      job: job,
-    });
+    this.ledger.add(new QueueEvent(
+      'arrive',
+      job,
+    ));
   }
 
   next() {

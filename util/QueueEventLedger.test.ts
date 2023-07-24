@@ -10,6 +10,7 @@ describe('QueueEventLedger', () => {
         'arrive',
         {
           arrivalTime: 4,
+          procStartTime: 0,
           procDuration: 128,
         },
       );
@@ -21,6 +22,31 @@ describe('QueueEventLedger', () => {
 
     
     test('adds multiple events in the correct order', () => {
+      const ledger = new QueueEventLedger();
+      const firstQev = new QueueEvent(
+        'arrive',
+        {
+          arrivalTime: 4,
+          procStartTime: 0,
+          procDuration: 128,
+        }
+      );
+      const secondQev = new QueueEvent(
+        'arrive',
+        {
+          arrivalTime: 8,
+          procStartTime: 0,
+          procDuration: 256,
+        }
+      );
+
+      ledger.add(secondQev);
+      ledger.add(firstQev);
+
+      let got = ledger.shift();
+      expect(got).toEqual(firstQev);
+      got = ledger.shift();
+      expect(got).toEqual(secondQev);
     });
 
   })

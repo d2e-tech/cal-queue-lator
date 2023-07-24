@@ -8,7 +8,19 @@ export class QueueEventLedger {
   }
 
   add(qev: QueueEvent) {
-    this.ordered.push(qev);
+    const t = qev.occursAt;
+    const i = this.ordered.findIndex((qev2) => (qev2.occursAt > t));
+
+    if (i === -1) {
+      this.ordered.push(qev);
+      return;
+    }
+    if (i === 0) {
+      this.ordered.unshift(qev);
+      return;
+    }
+
+    this.ordered = this.ordered.splice(i, 0, qev);
   }
 
   shift(): QueueEvent {

@@ -7,12 +7,14 @@ describe('QueueEventSource', () => {
       const source = new QueueEventSource();
       source.addArrival({
         arrivalTime: 4,
+        procStartTime: 0,
         procDuration: 128,
       })
       const next = source.next()
       expect(next.value.eventType).toBe('arrive');
       expect(next.value.job).toEqual({
         arrivalTime: 4,
+        procStartTime: 0,
         procDuration: 128,
       });
       expect(next.done).toBe(false);
