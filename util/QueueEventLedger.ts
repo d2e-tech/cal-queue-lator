@@ -30,4 +30,14 @@ export class QueueEventLedger {
     }
     return rv;
   }
+
+  *upTo(tMax: number) {
+    while (true) {
+      let nextQev = this.ordered[0];
+      if (nextQev.occursAt > tMax) {
+        return;
+      }
+      yield this.shift();
+    }
+  }
 }
